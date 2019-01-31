@@ -110,7 +110,8 @@ public class Utility {
     public static AQI handleAQIResponse(String response) {
         try {
             String content = handleJsonResponse(response);
-            return new Gson().fromJson(content, AQI.class);
+            AQI aqi = new Gson().fromJson(content, AQI.class);
+            return aqi;
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class AQI {
 
-    @SerializedName("air_now_station")
+    @SerializedName("air_now_city")
     public AQICity city;
 
     public String status;
@@ -17,19 +17,8 @@ public class AQI {
 
     }
 
-    public AQICity getCity() {
-        return city;
+    public AQI() {
+        city = new AQICity();
     }
 
-    public void setCity(AQICity city) {
-        this.city = city;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }
