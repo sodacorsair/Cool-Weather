@@ -1,5 +1,6 @@
 package com.coolweather.android;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,9 +24,9 @@ import com.coolweather.android.gson.AQI;
 import com.coolweather.android.gson.Forecast;
 import com.coolweather.android.gson.ForecastWeather;
 import com.coolweather.android.gson.LifeIndex;
-import com.coolweather.android.gson.Now;
 import com.coolweather.android.gson.NowWeather;
 import com.coolweather.android.gson.Weather;
+import com.coolweather.android.service.AutoUpdateService;
 import com.coolweather.android.util.HttpUtil;
 import com.coolweather.android.util.Utility;
 import com.google.gson.Gson;
@@ -301,8 +302,8 @@ public class WeatherActivity extends AppCompatActivity {
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         } else {
-            aqiText.setText("查询地区为付费地区");
-            pm25Text.setText("查询地区为付费地区");
+            aqiText.setText("环保部监测站点未覆盖当前地区");
+            pm25Text.setText("环保部监测站点未覆盖当前地区");
         }
 
         String comfort = "舒适度：" + weather.comfort.info;
@@ -312,5 +313,8 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
+
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 }
