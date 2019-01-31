@@ -2,9 +2,18 @@ package com.coolweather.android.util;
 
 import android.text.TextUtils;
 
+import com.coolweather.android.Define;
 import com.coolweather.android.db.City;
 import com.coolweather.android.db.County;
 import com.coolweather.android.db.Province;
+import com.coolweather.android.gson.AQI;
+import com.coolweather.android.gson.Forecast;
+import com.coolweather.android.gson.ForecastWeather;
+import com.coolweather.android.gson.LifeIndex;
+import com.coolweather.android.gson.Now;
+import com.coolweather.android.gson.NowWeather;
+import com.coolweather.android.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,4 +82,57 @@ public class Utility {
         }
         return false;
     }
+
+    public static Weather JsonToWeather(String content) {
+        return new Gson().fromJson(content, Weather.class);
+    }
+
+    public static ForecastWeather handleForecastResponse(String response) {
+        try {
+            String content = handleJsonResponse(response);
+            return new Gson().fromJson(content, ForecastWeather.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static NowWeather handleNowResponse(String response) {
+        try {
+            String content = handleJsonResponse(response);
+            return new Gson().fromJson(content, NowWeather.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static AQI handleAQIResponse(String response) {
+        try {
+            String content = handleJsonResponse(response);
+            return new Gson().fromJson(content, AQI.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static LifeIndex handleLifeIndexResponse(String response) {
+        try {
+            String content = handleJsonResponse(response);
+            return new Gson().fromJson(content, LifeIndex.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String handleJsonResponse(String response) throws JSONException {
+        JSONObject jsonObject = new JSONObject(response);
+        JSONArray jsonArray = jsonObject.getJSONArray("HeWeather6");
+        String content = jsonArray.getJSONObject(0).toString();
+
+        return content;
+    }
+
 }
